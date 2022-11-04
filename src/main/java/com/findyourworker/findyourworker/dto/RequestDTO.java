@@ -11,12 +11,12 @@ import javax.persistence.Id;
 @Data
 public class RequestDTO {
     @Id
-    private int id;
+    private String id;
     private String email;
     private String address;
     private String contactNumber;
     private String nic;
-    private int service;
+    private String service;
     private String serviceAbout;
     private String imageLink;
 }

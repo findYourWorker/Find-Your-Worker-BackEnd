@@ -19,12 +19,12 @@ import javax.persistence.Id;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Request {
     @Id
-    private int id;
+    private String id;
     private String email;
     private String address;
     private String contactNumber;
     private String nic;
-    private int service;
+    private String service;
     private String serviceAbout;
     private String imageLink;
 

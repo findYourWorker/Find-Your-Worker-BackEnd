@@ -1,46 +1,30 @@
 package com.findyourworker.findyourworker.entity;
 
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 @Document(collection="labourers")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Labourer {
 
     @Id
     private String id;
     private String firstname;
     private String lastname;
-    private int age;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
+    private String skill;
+    private String phone;
+    private Integer age;
+    private String location;
 }
