@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import java.time.Instant;
 
 @Entity
 @NoArgsConstructor
@@ -31,5 +34,9 @@ public class Request {
     private String service;
     private String serviceAbout;
     private String imageLink;
+    @CreatedDate
+    private Instant createdDate;
+    @LastModifiedDate
+    private Instant lastModifiedDate;
 
 }

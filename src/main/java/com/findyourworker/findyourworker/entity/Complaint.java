@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import java.time.Instant;
 import java.util.Date;
 
 @Entity
@@ -19,6 +23,7 @@ import java.util.Date;
 @Builder
 @Document(collection="complaint")
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@EnableMongoAuditing
 public class Complaint {
     @Transient
     public static final String SEQUENCE_NAME = "complaint_sequence";
@@ -32,4 +37,8 @@ public class Complaint {
     private Long  employeeId;
     private String description;
     private String photo;
+    @CreatedDate
+    private Instant createdDate;
+    @LastModifiedDate
+    private Instant lastModifiedDate;
 }
