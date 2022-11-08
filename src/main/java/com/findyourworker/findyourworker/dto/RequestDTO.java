@@ -16,13 +16,15 @@ public class RequestDTO {
     @Id
     private String id;
     private Long requestId;
+    private String fullname;
     private String email;
     private String address;
-    private String contactNumber;
-    private String nic;
-    private String service;
-    private String serviceAbout;
-    private String imageLink;
+    private String telNumber;
+    private String nicNumber;
+    private String servicedate;
+    private String serviceType;
+    private String description;
+    private String recieptfile;
     @CreatedDate
     private Instant createdDate;
     @LastModifiedDate
