@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ComplaintRepository extends MongoRepository<Complaint,String> {
-    List<Complaint> findAllByEmployeeId(Long employeeId);
-    List<Complaint> findAllByJobId(Long jobId);
+    List<Complaint> findAllByEmployeeId(String employeeId);
+    List<Complaint> findAllByJobId(String jobId);
 
     void deleteByComplaintId(Long complaintId);
 

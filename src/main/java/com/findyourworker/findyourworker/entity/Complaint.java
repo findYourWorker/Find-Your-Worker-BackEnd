@@ -33,8 +33,8 @@ public class Complaint {
     private Long complaintId;
     private String name;
     private Date date;
-    private Long jobId;
-    private Long  employeeId;
+    private String jobId;
+    private String  employeeId;
     private String description;
     private String photo;
     @CreatedDate

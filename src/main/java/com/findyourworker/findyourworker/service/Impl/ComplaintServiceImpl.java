@@ -84,12 +84,12 @@ public class ComplaintServiceImpl implements ComplaintService {
     }
 
     @Override
-    public List<ComplaintDTO> getComplaintListByEmployeeId(Long employeeId) {
+    public List<ComplaintDTO> getComplaintListByEmployeeId(String employeeId) {
         return modelMapper.map(complaintRepository.findAllByEmployeeId(employeeId), new TypeToken<List<ComplaintDTO>>(){}.getType());
     }
 
     @Override
-    public List<ComplaintDTO> getComplaintListByJobId(Long jobId) {
+    public List<ComplaintDTO> getComplaintListByJobId(String jobId) {
         return modelMapper.map(complaintRepository.findAllByJobId(jobId), new TypeToken<List<ComplaintDTO>>(){}.getType());
     }
 }

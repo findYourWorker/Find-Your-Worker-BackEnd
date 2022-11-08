@@ -18,6 +18,6 @@ public interface ComplaintService {
 
     List<ComplaintDTO> getComplaintList();
 
-    List<ComplaintDTO> getComplaintListByEmployeeId(Long employeeId);
-    List<ComplaintDTO> getComplaintListByJobId(Long jobId);
+    List<ComplaintDTO> getComplaintListByEmployeeId(String employeeId);
+    List<ComplaintDTO> getComplaintListByJobId(String jobId);
 }
