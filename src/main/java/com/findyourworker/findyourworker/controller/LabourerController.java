@@ -1,12 +1,16 @@
 package com.findyourworker.findyourworker.controller;
 
 
-import com.findyourworker.findyourworker.entity.Labourer;
-import com.findyourworker.findyourworker.repository.LabourerRepository;
+import com.findyourworker.findyourworker.dto.LabourerDTO;
+import com.findyourworker.findyourworker.service.LabourerService;
+import com.mongodb.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -14,27 +18,41 @@ import java.util.List;
 public class LabourerController {
 
     @Autowired
-    private LabourerRepository labourerRepository;
+    private LabourerService labourerService;
 
-    @PostMapping("/create")
-    public void createLabourer(@RequestBody Labourer labourer){
-        System.out.println(labourer);
-        labourerRepository.insert(labourer);
-
+    @PostMapping("/")
+    public ResponseEntity<HttpStatus> createLabourer(@RequestBody LabourerDTO labourerDTO){
+        labourerService.createLabourer(labourerDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    @PostMapping("/delete/{id}")
-    public void deleteLabourer(@PathVariable String id){
-        labourerRepository.deleteById(id);
-
+    @DeleteMapping("/{id}")
+    public void deleteLabourer(@PathVariable Long id){
+        labourerService.deleteLabourerByLabourerId(id);
     }
-    @GetMapping("/getUser/{id}")
-    public String getUser(@PathVariable String id){
-        return "Simple-Root";
+    @PutMapping("/{id}")
+    public void updateLabourer(@PathVariable Long id,@RequestBody LabourerDTO labourerDTO){
+        labourerService.updateLabourerByLabourerId(id,labourerDTO);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<LabourerDTO> getLabourer(@PathVariable Long id){
+        LabourerDTO labourerDTO = labourerService.getLabourerByLabourerId(id);
+        if (labourerDTO == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(labourerDTO,HttpStatus.OK);
     }
 
-    @GetMapping("/list")
-    public List<Labourer> labourerList(){
-        return labourerRepository.findAll();
+    @GetMapping("/")
+    public List<LabourerDTO> labourerList(){
+        return labourerService.getLabourerList();
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<LabourerDTO>> labourerListByLocation(@RequestParam @Nullable String location, @RequestParam @Nullable String skill){
+        List<LabourerDTO> labourerDTOList = labourerService.getLabourerListByLocationAndSkill(location,skill);
+        if (labourerDTOList == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(labourerDTOList,HttpStatus.OK);
+    }
 }

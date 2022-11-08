@@ -8,25 +8,24 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Id;
 import java.time.Instant;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RequestDTO {
+public class ComplaintDTO {
     @Id
     private String id;
-    private Long requestId;
-    private String fullname;
-    private String email;
-    private String address;
-    private String telNumber;
-    private String nicNumber;
-    private String servicedate;
-    private String serviceType;
+    private Long complaintId;
+    private String name;
+    private Date date;
+    private String jobId;
+    private String  employeeId;
     private String description;
-    private String recieptfile;
+    private String photo;
     @CreatedDate
     private Instant createdDate;
     @LastModifiedDate
     private Instant lastModifiedDate;
+
 }
