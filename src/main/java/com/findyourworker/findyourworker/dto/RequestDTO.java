@@ -12,6 +12,7 @@ import javax.persistence.Id;
 public class RequestDTO {
     @Id
     private String id;
+    private Long requestId;
     private String email;
     private String address;
     private String contactNumber;

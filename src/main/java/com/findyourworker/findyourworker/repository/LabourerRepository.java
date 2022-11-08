@@ -6,10 +6,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LabourerRepository extends MongoRepository<Labourer,String> {
     List<Labourer> findAllByLocation(String location);
-    List<Labourer> findAllBySkill(String skill);
-    List<Labourer> findAllByLocationAndSkill(String location, String skill);
+    List<Labourer> findAllBySkills(String skill);
+    List<Labourer> findAllByLocationAndSkills(String location, String skill);
+
+    void deleteByLabourerId(Long labourerId);
+
+    Optional<Labourer> findByLabourerId(Long labourerId);
 }
