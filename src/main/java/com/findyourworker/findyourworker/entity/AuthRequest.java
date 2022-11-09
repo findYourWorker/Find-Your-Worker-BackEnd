@@ -1,18 +1,14 @@
-package com.findyourworker.findyourworker.dto;
+package com.findyourworker.findyourworker.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class AdminDTO {
-    @Id
-    private String id;
-    private String username;
+public class AuthRequest {
+    private String userName;
     private String password;
 
 }
