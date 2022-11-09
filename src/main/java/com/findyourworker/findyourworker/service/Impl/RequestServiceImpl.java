@@ -5,6 +5,8 @@ import com.findyourworker.findyourworker.dto.RequestDTO;
 import com.findyourworker.findyourworker.entity.Request;
 import com.findyourworker.findyourworker.repository.RequestRepository;
 import com.findyourworker.findyourworker.service.RequestService;
+import com.findyourworker.findyourworker.service.SequenceGeneratorService;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,16 @@ public class RequestServiceImpl implements RequestService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private SequenceGeneratorService sequenceGenerator;
+
     @Override
     public RequestDTO createRequest(RequestDTO requestDTO){
-        requestRepository.insert(modelMapper.map(requestDTO, Request.class));
-        return requestDTO;
+        Request request = modelMapper.map(requestDTO, Request.class);
+        request.setRequestId(sequenceGenerator.generateSequence(Request.SEQUENCE_NAME));
+        requestRepository.save(request);
+        return modelMapper.map(request, RequestDTO.class);
 
     }
     @Override
@@ -34,8 +42,14 @@ public class RequestServiceImpl implements RequestService {
     }
     @Override
     public RequestDTO updateRequest(String id,RequestDTO requestDTO){
-        requestRepository.save(modelMapper.map(requestDTO,Request.class));
-        return requestDTO;
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        Request request = requestRepository.findById(id).orElse(null);
+        if (request == null){
+            return null;
+        }
+        modelMapper.map(requestDTO,request);
+        requestRepository.save(request);
+        return modelMapper.map(request,RequestDTO.class);
     }
     @Override
     public boolean deleteUser(String id){

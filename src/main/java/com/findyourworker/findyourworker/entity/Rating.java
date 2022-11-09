@@ -7,31 +7,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-@Document(collection="labourers")
+@Document(collection = "rating")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Labourer {
-    @Transient
-    public static final String SEQUENCE_NAME = "labourer_sequence";
 
+public class Rating {
     @Id
     private String id;
-    private Long labourerId;
-    private String firstname;
-    private String lastname;
-    @ElementCollection
-    private List<String> skills;
-    private String phone;
-    private Integer age;
-    private String location;
+    private String comment;
+    private String name;
+    private Float rate;
 }

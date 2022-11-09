@@ -4,6 +4,7 @@ import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.entity.Labourer;
 import com.findyourworker.findyourworker.repository.LabourerRepository;
 import com.findyourworker.findyourworker.service.LabourerService;
+import com.findyourworker.findyourworker.service.SequenceGeneratorService;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -22,10 +23,14 @@ public class LabourerServiceImpl implements LabourerService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private SequenceGeneratorService sequenceGenerator;
+
 
     @Override
     public void createLabourer(LabourerDTO labourerDTO) {
         Labourer labourer = modelMapper.map(labourerDTO, Labourer.class);
+        labourer.setLabourerId(sequenceGenerator.generateSequence(Labourer.SEQUENCE_NAME));
         labourerRepository.save(labourer);
     }
 
@@ -36,15 +41,37 @@ public class LabourerServiceImpl implements LabourerService {
     }
 
     @Override
+    public void deleteLabourerByLabourerId(Long labourerId) {
+        labourerRepository.deleteByLabourerId(labourerId);
+    }
+
+    @Override
     public Optional<LabourerDTO> getLabourer(String id) {
         Optional<Labourer> labourer = labourerRepository.findById(id);
         return Optional.of(modelMapper.map(labourer, LabourerDTO.class));
     }
 
     @Override
+    public LabourerDTO getLabourerByLabourerId(Long labourerId) {
+        Optional<Labourer> labourer = labourerRepository.findByLabourerId(labourerId);
+        return labourer.map(value -> modelMapper.map(value, LabourerDTO.class)).orElse(null);
+    }
+
+    @Override
     public void updateLabourer(String id,LabourerDTO labourerDTO) {
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         Labourer labourer = labourerRepository.findById(id).orElse(null);
+        if (labourer == null){
+            return;
+        }
+        modelMapper.map(labourerDTO,labourer);
+        labourerRepository.save(labourer);
+    }
+
+    @Override
+    public void updateLabourerByLabourerId(Long labourerId, LabourerDTO labourerDTO) {
+        modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        Labourer labourer = labourerRepository.findByLabourerId(labourerId).orElse(null);
         if (labourer == null){
             return;
         }
@@ -65,11 +92,11 @@ public class LabourerServiceImpl implements LabourerService {
         if (location == null && skill == null){
             labourerList = labourerRepository.findAll();
         }else if (location == null){
-            labourerList = labourerRepository.findAllBySkill(skill);
+            labourerList = labourerRepository.findAllBySkills(skill);
         }else if (skill == null) {
             labourerList = labourerRepository.findAllByLocation(location);
         }else {
-            labourerList = labourerRepository.findAllByLocationAndSkill(location, skill);
+            labourerList = labourerRepository.findAllByLocationAndSkills(location, skill);
         }
         return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
     }

@@ -10,10 +10,13 @@ public interface LabourerService {
     void createLabourer(LabourerDTO labourerDTO);
 
     void deleteLabourer(String id);
+    void deleteLabourerByLabourerId(Long labourerId);
 
     Optional<LabourerDTO> getLabourer(String id);
+    LabourerDTO getLabourerByLabourerId(Long labourerId);
 
     void updateLabourer(String id, LabourerDTO labourerDTO);
+    void updateLabourerByLabourerId(Long labourerId, LabourerDTO labourerDTO);
 
     List<LabourerDTO> getLabourerList();
 

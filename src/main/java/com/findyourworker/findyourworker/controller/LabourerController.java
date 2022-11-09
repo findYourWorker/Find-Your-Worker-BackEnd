@@ -3,7 +3,10 @@ package com.findyourworker.findyourworker.controller;
 
 import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.service.LabourerService;
+import com.mongodb.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,22 +21,25 @@ public class LabourerController {
     private LabourerService labourerService;
 
     @PostMapping("/")
-    public void createLabourer(@RequestBody LabourerDTO labourerDTO){
+    public ResponseEntity<HttpStatus> createLabourer(@RequestBody LabourerDTO labourerDTO){
         labourerService.createLabourer(labourerDTO);
-
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
-    public void deleteLabourer(@PathVariable String id){
-        labourerService.deleteLabourer(id);
+    public void deleteLabourer(@PathVariable Long id){
+        labourerService.deleteLabourerByLabourerId(id);
     }
     @PutMapping("/{id}")
-    public void updateLabourer(@PathVariable String id,@RequestBody LabourerDTO labourerDTO){
-        labourerService.updateLabourer(id,labourerDTO);
+    public void updateLabourer(@PathVariable Long id,@RequestBody LabourerDTO labourerDTO){
+        labourerService.updateLabourerByLabourerId(id,labourerDTO);
     }
     @GetMapping("/{id}")
-    public LabourerDTO getLabourer(@PathVariable String id){
-        Optional<LabourerDTO> labourerDTO = labourerService.getLabourer(id);
-        return labourerDTO.orElse(null);
+    public ResponseEntity<LabourerDTO> getLabourer(@PathVariable Long id){
+        LabourerDTO labourerDTO = labourerService.getLabourerByLabourerId(id);
+        if (labourerDTO == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(labourerDTO,HttpStatus.OK);
     }
 
     @GetMapping("/")
@@ -42,7 +48,11 @@ public class LabourerController {
     }
 
     @GetMapping("/search")
-    public List<LabourerDTO> labourerListByLocation(@RequestParam String location, @RequestParam String skill){
-        return labourerService.getLabourerListByLocationAndSkill(location,skill);
+    public ResponseEntity<List<LabourerDTO>> labourerListByLocation(@RequestParam @Nullable String location, @RequestParam @Nullable String skill){
+        List<LabourerDTO> labourerDTOList = labourerService.getLabourerListByLocationAndSkill(location,skill);
+        if (labourerDTOList == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(labourerDTOList,HttpStatus.OK);
     }
 }
