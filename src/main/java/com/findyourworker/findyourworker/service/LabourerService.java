@@ -19,6 +19,7 @@ public interface LabourerService {
     void updateLabourerByLabourerId(Long labourerId, LabourerDTO labourerDTO);
 
     List<LabourerDTO> getLabourerList();
+    List<LabourerDTO> getLabourerListForAdmin(String skip,String take);
 
     List<LabourerDTO> getLabourerListByLocationAndSkill(String location, String skill);
 }

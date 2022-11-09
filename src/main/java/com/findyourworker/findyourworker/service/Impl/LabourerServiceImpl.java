@@ -85,6 +85,17 @@ public class LabourerServiceImpl implements LabourerService {
         return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
     }
 
+    @Override
+    public List<LabourerDTO> getLabourerListForAdmin(String skipp,String take) {
+        int limit= Integer.parseInt(take);
+        int skip=Integer.parseInt(skipp);
+        System.out.println(limit+skip);
+
+        List<Labourer> labourerList = labourerRepository.findAll();
+        System.out.println(labourerList );
+        return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
+    }
+
 
     @Override
     public List<LabourerDTO> getLabourerListByLocationAndSkill(String location, String skill) {

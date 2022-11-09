@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value="api/admin")
@@ -37,9 +38,13 @@ public class AdminController {
     }
 
     @GetMapping("/all-labourers")
-    public List<LabourerDTO> getAllLabourers(@RequestParam("skip") Integer skip){
-        System.out.println("skipping"+skip);
-        return labourerService.getLabourerList();
+    public List<LabourerDTO> getAllLabourers(@RequestParam Map<String,String> reqParam){
+//        System.out.println("skipping"+skip);
+        String skip=reqParam.get("skip");
+        String take=reqParam.get("take");
+        String searchBy=reqParam.get("search_by");
+        String filterBy=reqParam.get("filter_by");
+        return labourerService.getLabourerListForAdmin(skip,take);
 
     }
 
