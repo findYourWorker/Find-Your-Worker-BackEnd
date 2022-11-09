@@ -37,7 +37,8 @@ public class AdminController {
     }
 
     @GetMapping("/all-labourers")
-    public List<LabourerDTO> getAllLabourers(){
+    public List<LabourerDTO> getAllLabourers(@RequestParam("skip") Integer skip){
+        System.out.println("skipping"+skip);
         return labourerService.getLabourerList();
 
     }
