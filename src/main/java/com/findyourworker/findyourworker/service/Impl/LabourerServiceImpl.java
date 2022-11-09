@@ -9,6 +9,7 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -109,6 +110,12 @@ public class LabourerServiceImpl implements LabourerService {
         }else {
             labourerList = labourerRepository.findAllByLocationAndSkills(location, skill);
         }
+        return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
+    }
+
+    @Override
+    public List<LabourerDTO> getLabourerPaginate(Pageable pageable) {
+        List<Labourer> labourerList = labourerRepository.findAll(pageable).getContent();
         return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
     }
 }

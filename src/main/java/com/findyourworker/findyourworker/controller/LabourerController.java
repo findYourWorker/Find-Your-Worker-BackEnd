@@ -5,6 +5,7 @@ import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.service.LabourerService;
 import com.mongodb.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,12 @@ public class LabourerController {
     @GetMapping("/")
     public List<LabourerDTO> labourerList(){
         return labourerService.getLabourerList();
+    }
+
+    //TODO: Pagination kalindu
+    @GetMapping("/page")
+    public List<LabourerDTO> labourerListPaginate(@RequestParam Integer page, @RequestParam Integer size){
+        return labourerService.getLabourerPaginate(Pageable.ofSize(size).withPage(page));
     }
 
 

@@ -2,6 +2,7 @@ package com.findyourworker.findyourworker.service;
 
 import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.entity.Labourer;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,4 +23,6 @@ public interface LabourerService {
     List<LabourerDTO> getLabourerListForAdmin(String skip,String take);
 
     List<LabourerDTO> getLabourerListByLocationAndSkill(String location, String skill);
+
+    List<LabourerDTO> getLabourerPaginate(Pageable pageable);
 }
