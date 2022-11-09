@@ -22,6 +22,7 @@ public class LabourerController {
 
     @PostMapping("/")
     public ResponseEntity<HttpStatus> createLabourer(@RequestBody LabourerDTO labourerDTO){
+        System.out.println(labourerDTO);
         labourerService.createLabourer(labourerDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -46,6 +47,8 @@ public class LabourerController {
     public List<LabourerDTO> labourerList(){
         return labourerService.getLabourerList();
     }
+
+
 
     @GetMapping("/search")
     public ResponseEntity<List<LabourerDTO>> labourerListByLocation(@RequestParam @Nullable String location, @RequestParam @Nullable String skill){
