@@ -21,12 +21,7 @@ public class LabourerController {
     @Autowired
     private LabourerService labourerService;
 
-    @PostMapping("/")
-    public ResponseEntity<HttpStatus> createLabourer(@RequestBody LabourerDTO labourerDTO){
-        System.out.println(labourerDTO);
-        labourerService.createLabourer(labourerDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+
     @DeleteMapping("/{id}")
     public void deleteLabourer(@PathVariable Long id){
         labourerService.deleteLabourerByLabourerId(id);

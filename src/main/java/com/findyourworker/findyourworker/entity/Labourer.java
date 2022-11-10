@@ -28,6 +28,7 @@ public class Labourer {
     private String id;
     private Long labourerId;
     private String firstname;
+    private String lastname;
     @Builder.Default
     private String active="1";
     @ElementCollection
