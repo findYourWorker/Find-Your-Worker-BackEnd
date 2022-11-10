@@ -82,6 +82,17 @@ public class AdminController {
         }
         return new ResponseEntity<>(labourerDTOList,HttpStatus.OK);
     }
+    @PostMapping("/change-active")
+    public void changeActivation(@RequestParam String labourerId){
+        System.out.println("labourerid printing"+labourerId);
+        adminService.changeActivation(labourerId);
+    }
+    @PostMapping("/create-labourer")
+    public ResponseEntity<HttpStatus> createLabourer(@RequestBody LabourerDTO labourerDTO){
+        System.out.println(labourerDTO);
+        labourerService.createLabourer(labourerDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
 
 

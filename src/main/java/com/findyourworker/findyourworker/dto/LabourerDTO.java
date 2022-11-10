@@ -18,6 +18,7 @@ public class LabourerDTO {
     private Long labourerId;
     private String firstname;
     private String lastname;
+    private String active="1";
     @ElementCollection
     private List<String> skills;
     private String phone;

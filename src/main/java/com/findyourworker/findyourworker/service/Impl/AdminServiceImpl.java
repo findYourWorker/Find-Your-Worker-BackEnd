@@ -1,9 +1,11 @@
 package com.findyourworker.findyourworker.service.Impl;
 
 import com.findyourworker.findyourworker.dto.AdminDTO;
+import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.entity.Admin;
 import com.findyourworker.findyourworker.entity.Labourer;
 import com.findyourworker.findyourworker.repository.AdminRepository;
+import com.findyourworker.findyourworker.repository.LabourerRepository;
 import com.findyourworker.findyourworker.service.AdminService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ import java.util.ArrayList;
 public class AdminServiceImpl implements UserDetailsService,AdminService {
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private LabourerRepository labourerRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -47,5 +52,24 @@ public class AdminServiceImpl implements UserDetailsService,AdminService {
 //        System.out.println(admin.getUsername());
         adminRepository.save(admin);
 
+    }
+    @Override
+    public void changeActivation(String labourerId){
+        Long id=Long.parseLong(labourerId);
+        System.out.println(id);
+
+        Labourer labourer= labourerRepository.findByLabourerId(id).get();
+//        labourerRepository.deleteByLabourerId(id);
+        Integer activation=Integer.parseInt(labourer.getActive());
+
+        if(activation==1){
+            labourer.setActive("0");
+        } else if (activation==0) {
+            System.out.println("caught");
+            labourer.setActive("1");
+
+        }
+        labourerRepository.save(labourer);
+        System.out.println(labourer);
     }
 }
