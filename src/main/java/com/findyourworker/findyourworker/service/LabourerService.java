@@ -22,7 +22,10 @@ public interface LabourerService {
     List<LabourerDTO> getLabourerList();
     List<LabourerDTO> getLabourerListForAdmin(String skip,String take);
 
-    List<LabourerDTO> getLabourerListByLocationAndSkill(String location, String skill);
+    List<LabourerDTO> getLabourerListByLocationSkillAndLabourerId(String location, String skill,Long labourerId, Pageable pageable);
 
     List<LabourerDTO> getLabourerPaginate(Pageable pageable);
+
+    long getAllLabourerCount();
+
 }
