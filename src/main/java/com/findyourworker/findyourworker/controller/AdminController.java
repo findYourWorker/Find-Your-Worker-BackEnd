@@ -5,8 +5,13 @@ import com.findyourworker.findyourworker.dto.LabourerDTO;
 import com.findyourworker.findyourworker.entity.Labourer;
 import com.findyourworker.findyourworker.service.AdminService;
 import com.findyourworker.findyourworker.service.LabourerService;
+import com.mongodb.lang.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.regex.Pattern;
 
 import java.util.List;
 import java.util.Map;
@@ -38,15 +43,26 @@ public class AdminController {
     }
 
     @GetMapping("/all-labourers")
-    public List<LabourerDTO> getAllLabourers(@RequestParam Map<String,String> reqParam){
+    public List<LabourerDTO> getAllLabourers(@RequestParam Integer page, @RequestParam Integer size){
 //        System.out.println("skipping"+skip);
-        String skip=reqParam.get("skip");
-        String take=reqParam.get("take");
-        String searchBy=reqParam.get("search_by");
-        String filterBy=reqParam.get("filter_by");
-        return labourerService.getLabourerListForAdmin(skip,take);
+//        String skip=reqParam.get("skip");
+//        String take=reqParam.get("take");
+//        String searchBy=reqParam.get("search_by");
+//        String filterBy=reqParam.get("filter_by");
+//        return labourerService.getLabourerListForAdmin(skip,take);
 
+        return labourerService.getLabourerPaginate(Pageable.ofSize(size).withPage(page));
     }
+
+
+    @GetMapping("/labourers-count")
+    public Long getAllLabourersCount(){
+        return labourerService.getAllLabourerCount();
+    }
+//    @GetMapping("/page")
+//    public List<LabourerDTO> labourerListPaginate(){
+//        return labourerService.getLabourerPaginate(Pageable.ofSize(size).withPage(page));
+//    }
 
     @PostMapping("/createAdmin")
     public void saveUser(@RequestBody AdminDTO adminDTO){
@@ -54,6 +70,20 @@ public class AdminController {
 //        System.out.println(adminDTO.getPassword());
         adminService.saveAdmin(adminDTO);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<LabourerDTO>> labourerListByLocation(@RequestParam @Nullable String location, @RequestParam @Nullable String skill,@RequestParam @Nullable Long labourerId,@RequestParam Integer page, @RequestParam Integer size){
+        System.out.println("location"+location);
+        System.out.println("skill"+skill);
+        System.out.println("labourerid"+labourerId);
+        List<LabourerDTO> labourerDTOList = labourerService.getLabourerListByLocationSkillAndLabourerId(location,skill,labourerId,Pageable.ofSize(size).withPage(page));
+        if (labourerDTOList == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(labourerDTOList,HttpStatus.OK);
+    }
+
+
 
 
 }

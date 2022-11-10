@@ -50,19 +50,8 @@ public class LabourerController {
     }
 
     //TODO: Pagination kalindu
-    @GetMapping("/page")
-    public List<LabourerDTO> labourerListPaginate(@RequestParam Integer page, @RequestParam Integer size){
-        return labourerService.getLabourerPaginate(Pageable.ofSize(size).withPage(page));
-    }
 
 
 
-    @GetMapping("/search")
-    public ResponseEntity<List<LabourerDTO>> labourerListByLocation(@RequestParam @Nullable String location, @RequestParam @Nullable String skill){
-        List<LabourerDTO> labourerDTOList = labourerService.getLabourerListByLocationAndSkill(location,skill);
-        if (labourerDTOList == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(labourerDTOList,HttpStatus.OK);
-    }
+
 }

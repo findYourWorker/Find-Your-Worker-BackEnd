@@ -9,6 +9,7 @@ import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -99,16 +100,19 @@ public class LabourerServiceImpl implements LabourerService {
 
 
     @Override
-    public List<LabourerDTO> getLabourerListByLocationAndSkill(String location, String skill) {
+    public List<LabourerDTO> getLabourerListByLocationSkillAndLabourerId(String location, String skill,Long labourerId, Pageable pageable) {
         List<Labourer> labourerList;
-        if (location == null && skill == null){
-            labourerList = labourerRepository.findAll();
-        }else if (location == null){
-            labourerList = labourerRepository.findAllBySkills(skill);
-        }else if (skill == null) {
-            labourerList = labourerRepository.findAllByLocation(location);
-        }else {
-            labourerList = labourerRepository.findAllByLocationAndSkills(location, skill);
+        if (location == null && skill == null && labourerId ==null){
+            labourerList = labourerRepository.findAll(pageable).getContent();
+        }else if (location == null && labourerId==null){
+            labourerList = labourerRepository.findAllBySkills(skill,pageable);
+        }else if (skill == null && labourerId==null) {
+            labourerList = labourerRepository.findAllByLocation(location, pageable);
+        } else if (skill==null && location==null) {
+            labourerList = labourerRepository.findAllByLabourerId(labourerId, pageable);
+        }
+    else {
+            labourerList = labourerRepository.findAllByLocationAndSkillsAndLabourerId(location, skill,labourerId,pageable);
         }
         return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
     }
@@ -117,5 +121,11 @@ public class LabourerServiceImpl implements LabourerService {
     public List<LabourerDTO> getLabourerPaginate(Pageable pageable) {
         List<Labourer> labourerList = labourerRepository.findAll(pageable).getContent();
         return modelMapper.map(labourerList, new TypeToken<List<LabourerDTO>>() {}.getType());
+    }
+
+
+    @Override
+    public long getAllLabourerCount(){
+        return labourerRepository.count();
     }
 }
